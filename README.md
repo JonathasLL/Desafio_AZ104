@@ -1,2 +1,31 @@
 # Desafio_AZ104
 Este repositório contém o resumo das lições aprendidas durante o desenvolvimento do Bootcamp Microsoft - Azure Administrator Certification (AZ-104) da DIO.
+
+## Virtual Machine
+As Máquinas Virtuais (VMs) no Azure são recursos de computação escaláveis e sob demanda. Elas oferecem controle total sobre o sistema operacional, com a Microsoft gerenciando a infraestrutura física subjacente. São ideais para desenvolvimento, testes e migração de aplicações, suportando sistemas como Windows e Linux. VMs possuem diversos tamanhos e configurações de disco, afetando diretamente custo e performance. O Azure garante alta disponibilidade com Conjuntos de Disponibilidade, Domínios de Falha e Domínios de Atualização. Suportam escalabilidade vertical (redimensionamento) e horizontal (VMSS). Os custos variam por tamanho, SO e uso, com opções como Instâncias Spot. Podem ser gerenciadas por diversas ferramentas como Portal, ARM, CLI e PowerShell.
+
+## Virtual Machine Scale Set
+Os Conjuntos de Dimensionamento de Máquinas Virtuais (VMSS) do Azure permitem criar e gerenciar um grupo de Máquinas Virtuais (VMs) idênticas e com balanceamento de carga. Eles são projetados para oferecer escalabilidade automática, permitindo que o número de instâncias de VM aumente ou diminua em resposta à demanda ou a um cronograma definido, sem a necessidade de pré-provisionamento.
+O VMSS centraliza o gerenciamento, configuração e atualização de um grande número de VMs, sendo ideal para serviços de grande escala, computação, big data e workloads de contêineres. As VMs dentro de um VMSS são distribuídas em múltiplos domínios de falha e atualização para maximizar a disponibilidade e resiliência contra interrupções ou manutenções. Podem ser criados e gerenciados via Portal do Azure, CLI do Azure, Azure PowerShell ou modelos Azure Resource Manager (ARM). Um VMSS padrão suporta até 100 instâncias, podendo chegar a 1000 com configurações específicas. Eles combinam o modelo IaaS de VMs com funcionalidades PaaS, como escala e automação.
+
+## Availability Sets
+Conjuntos de Disponibilidade (Availability Sets) no Azure são um recurso para garantir alta disponibilidade de Máquinas Virtuais (VMs) dentro de um datacenter. Eles distribuem as VMs em diferentes **Domínios de Falha (FDs)**, que são racks físicos separados com fontes de energia e rede independentes, protegendo contra falhas de hardware. Também as alocam em **Domínios de Atualização (UDs)**, assegurando que as VMs sejam atualizadas sequencialmente durante manutenções planejadas para minimizar o tempo de inatividade. Conjuntos de Disponibilidade exigem no mínimo duas VMs e devem ser configurados na criação. Oferecem um SLA de 99,95% e são obrigatórios para usar balanceadores de carga.
+
+## Storage Account
+Uma conta de armazenamento do Azure é um contêiner lógico unificado para armazenar dados na nuvem. Ela oferece serviços como blobs (para dados não estruturados), arquivos (compartilhamentos SMB), filas (mensagens) e tabelas (dados NoSQL). Essas contas são altamente escaláveis, duráveis e disponíveis, acessíveis globalmente via HTTP/HTTPS. Existem tipos como Standard e Premium, e General-purpose v2 é o mais recomendado. A replicação (LRS, ZRS, GRS, etc.) garante redundância. O custo é pago pelo uso, otimizado por camadas de acesso (quente, esporádico, arquivo). A segurança é gerenciada por chaves de acesso e Assinaturas de Acesso Compartilhado (SAS), com criptografia de dados em repouso.
+
+## Microsoft Entra ID
+Microsoft Entra ID (anteriormente Azure Active Directory) é o serviço de gerenciamento de identidade e acesso baseado em nuvem da Microsoft. Ele centraliza a gestão de identidades, funções e acessos a recursos internos e milhares de aplicações SaaS, como Office 365 e Azure Portal.
+O Entra ID oferece segurança robusta com recursos como autenticação multifator (MFA), proteção de identidade e redefinição de senha por autoatendimento (SSPR). Operando como PaaS, a Microsoft gerencia sua infraestrutura subjacente, liberando o cliente da manutenção. É um diretório multitenant e pode ser integrado ao Active Directory local via Microsoft Entra Connect, facilitando ambientes híbridos e oferecendo logon único (SSO).
+
+## Virtual Network
+Rede Virtual do Azure (VNet) é o componente fundamental para a construção de redes privadas na nuvem. Ela virtualiza sua rede local, permitindo comunicação segura entre Máquinas Virtuais (VMs), internet e, crucialmente, suas redes on-premises para cenários híbridos.
+As VNets são um isolamento lógico dos recursos de nuvem, onde você define seus próprios espaços de endereçamento IP e sub-redes para segmentação e controle. Elas suportam emparelhamento (peering) para conectar VNets na mesma ou em diferentes regiões e são protegidas por Grupos de Segurança de Rede (NSGs) para filtrar o tráfego. O Azure gerencia a infraestrutura de rede subjacente, liberando você da complexidade de hardware físico.
+
+## Network Security Group
+Network Security Group (NSG) do Azure atua como um firewall de nível de nuvem. Ele contém uma lista de regras de segurança que permitem ou negam o tráfego de rede de entrada e saída para recursos conectados a Redes Virtuais (VNets) do Azure.
+As regras do NSG são baseadas em uma 5-tupla (IP de origem/destino, porta de origem/destino e protocolo) e são processadas por prioridade (menor número = maior prioridade). NSGs podem ser associados a sub-redes (aplicando regras a todas as VMs na sub-rede) ou a interfaces de rede (para VMs específicas). Isso oferece proteção granular e flexibilidade para controlar o fluxo de tráfego, essencial para a segurança de IaaS.
+
+## Peering
+Emparelhamento (peering) no Azure permite a conexão direta entre Redes Virtuais (VNets), proporcionando comunicação segura, de baixa latência e alta largura de banda. Ele utiliza a rede backbone da Microsoft, eliminando a necessidade de gateways e, consequentemente, reduzindo custos e complexidade.
+É ideal para cenários como replicação de dados e failover. Contudo, há um limite de 500 conexões de peering por VNet. É importante notar que o emparelhamento global não pode acessar o IP de front-end de um Azure Load Balancer na camada Básica, exigindo uma VPN VNet-to-VNet nesses casos.
