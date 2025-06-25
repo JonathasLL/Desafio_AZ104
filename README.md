@@ -29,3 +29,39 @@ As regras do NSG são baseadas em uma 5-tupla (IP de origem/destino, porta de or
 ## Peering
 Emparelhamento (peering) no Azure permite a conexão direta entre Redes Virtuais (VNets), proporcionando comunicação segura, de baixa latência e alta largura de banda. Ele utiliza a rede backbone da Microsoft, eliminando a necessidade de gateways e, consequentemente, reduzindo custos e complexidade.
 É ideal para cenários como replicação de dados e failover. Contudo, há um limite de 500 conexões de peering por VNet. É importante notar que o emparelhamento global não pode acessar o IP de front-end de um Azure Load Balancer na camada Básica, exigindo uma VPN VNet-to-VNet nesses casos.
+
+## App Service Plan
+É o recurso do Azure que define o poder computacional alocado para hospedar aplicações web, APIs, back-ends móveis e funções. Atuando como um servidor subjacente gerenciado pela Microsoft, abstrai a infraestrutura do usuário. Ele oferece diferentes SKUs (Basic, Standard, Premium, Isolated) com variados níveis de recursos e funcionalidades, como escalabilidade automática, zonas de disponibilidade e SLA, com VMs dedicadas para ambientes de produção. O SKU não pode ser alterado após a criação.
+O Azure Web App é a aplicação PaaS que executa sobre um App Service Plan. Permite publicar código ou contêineres Docker em diversas linguagens (e.g., .NET, Java, Python). Os benefícios incluem alta disponibilidade, escala automática (em SKUs compatíveis), domínios customizados, certificados SSL e deployment slots para ambientes de preparo. A Microsoft gerencia a infraestrutura, liberando o foco no código da aplicação.
+
+## Azure Container Services
+Os serviços de contêiner do Azure oferecem plataformas de virtualização leve para aplicações, abstraindo a infraestrutura subjacente. O Azure Container Instances (ACI) é uma oferta PaaS que permite executar contêineres individuais ou grupos de contêineres rapidamente, sem a necessidade de gerenciar máquinas virtuais ou orquestradores. É ideal para workloads de curta duração, testes e automação.
+Para orquestração robusta e alta disponibilidade de aplicações em contêineres em escala, o Azure Kubernetes Service (AKS) é a solução gerenciada. Ele permite criar e escalar clusters Kubernetes, onde o Azure gerencia o plano de controle e o usuário é responsável apenas pelos nodes de agente. Ferramentas como o Azure Container Registry (ACR) fornecem um repositório seguro para imagens Docker, e o Azure Web App for Containers estende o App Service para hospedar aplicações web containerizadas, com escala e gestão de infraestrutura pela plataforma.
+
+## Azure Load Balancers
+O Azure oferece uma gama de serviços para balanceamento de carga, cada um com funcionalidades distintas. O Azure Load Balancer opera na Camada 4 (transporte), distribuindo eficientemente tráfego TCP/UDP entre instâncias íntegras de serviços. É um serviço regional, adequado para balanceamento interno ou público, com SLAs de até 99,99% no SKU Standard.
+Para requisitos mais avançados na Camada 7 (aplicação), o Azure Application Gateway é ideal para aplicações web, fornecendo terminação SSL, roteamento baseado em URL e um Web Application Firewall (WAF) para segurança. Ele também opera em nível regional.
+Em cenários de distribuição global, o Azure Traffic Manager roteia o tráfego via resolução DNS, sem atuar em camadas OSI específicas, otimizando a entrega entre regiões. Complementarmente, o Azure Front Door é uma rede de entrega de aplicações que oferece balanceamento de Camada 7 global, aceleração de site, WAF e failover rápido, sendo uma alternativa de alto desempenho para aplicações distribuídas.
+
+## Storage
+O Azure oferece diversos serviços de armazenamento escaláveis e duráveis. A Azure Storage Account é a solução central para armazenar dados estruturados e não estruturados, acessível via HTTP/HTTPS. Ela suporta:
+• Azure Blobs: repositório de objetos para grandes quantidades de dados não estruturados (texto, binários), ideal para imagens, vídeos, backups e análise de Big Data (Data Lake Storage Gen2). Pode ser Block Blobs (até 200GB) ou Page Blobs (até 1TB, para VMs e bancos de dados).
+• Azure Files: compartilhamentos de arquivos gerenciados na nuvem, acessíveis via protocolos SMB/NFS, adequados para substituir servidores de arquivos locais e fornecer armazenamento persistente para contêineres.
+• Azure Queues: Armazena grandes volumes de mensagens (até 64KB) para comunicação confiável e assíncrona entre componentes de aplicativos.
+• Azure Tables: Banco de dados NoSQL de chave/valor para dados semiestruturados, oferecendo um design sem esquema e acesso rápido e econômico.
+• Azure Disks: Volumes de armazenamento em nível de bloco para VMs do Azure, gerenciados pela plataforma.
+Todos os dados são criptografados em repouso (SSE AES 256-bit) e em trânsito.
+
+## Network Watcher
+O Azure Network Watcher é um serviço regional do Azure Monitor, focado em diagnóstico e troubleshooting de rede. Ele provisiona automaticamente um resource group por região onde há Virtual Networks. Suas ferramentas incluem:
+• Topology: Gera uma representação visual da rede, mostrando recursos e relações.
+• Connection Monitor: Testa a conectividade entre endpoints, exigindo a instalação do Network Watcher Agent nas VMs e um Workspace do Log Analytics para armazenamento de dados.
+• NSG Flow Logs: Registra informações detalhadas do tráfego que flui através de um Network Security Group, armazenando-as no Azure Storage para análise posterior. Complementado pelo Traffic Analytics, que oferece insights de tráfego e largura de banda.
+• IP Flow Verify e Next Hop: Diagnostica problemas de conectividade e determina o roteamento correto.
+O serviço é essencial para gerenciar a saúde e performance de redes no Azure.
+
+## Azure Monitor
+É a console central de monitoramento do Azure, reunindo LOGS e MÉTRICAS de recursos no Azure, em ambientes on-premises e de outras nuvens. Ele oferece ferramentas como Log Analytics para armazenamento e análise de logs utilizando KQL, e Metrics Explorer para métricas. É possível configurar alertas com base em regras e respostas automatizadas, como autoscale. O Application Insights e os Insights de Contêiner fornecem monitoramento de performance granular para aplicações e workloads em contêineres.
+
+## Workspace do Log Analytics
+O Workspace do Log Analytics é a **solução analítica central** do Azure Monitor para **coleta, armazenamento e análise** de **LOGS** (registros textuais) e **MÉTRICAS** (números de desempenho). Atuando como um **banco de dados de logs e métricas**, ele ingere dados de recursos no Azure, on-premises e outras nuvens, incluindo Event Logs do Windows, Syslog do Linux e logs do IIS. A Kusto Query Language (KQL) é utilizada para **recuperar, consolidar e analisar rapidamente** os dados coletados. Possibilita a configuração de **alertas com base em regras e respostas automatizadas**, como autoscale. É o destino para dados de monitoramento de diversas ferramentas e soluções, como Azure Sentinel e Application Insights, e oferece a criação de **workbooks e dashboards** para visualização e relatórios.
